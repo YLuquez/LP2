@@ -25,10 +25,21 @@ class Hello2DFrame extends JFrame {
     public void paint (Graphics g) {
         super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setPaint(Color.blue);
+        //g2d.setPaint(Color.blue);
         int w = getWidth();
         int h = getHeight();
-        g2d.drawLine(0,0, w,h);
-        g2d.drawLine(0,h, w,0);
+        int squareSize = 350;
+
+        g.setColor(Color.cyan);
+        g.fillRect(0, 0, w, h);
+
+        g2d.setPaint(Color.orange);
+        g2d.fillRect(188, 70, 10, 140);
+
+        g2d.setPaint(Color.MAGENTA);
+        g2d.fillOval(155, 55, 75, 100);
+
+        g2d.setPaint(Color.RED);
+        g2d.drawString("Ola mundo", 75, 100);
     }
 }
