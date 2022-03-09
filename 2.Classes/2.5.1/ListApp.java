@@ -19,7 +19,6 @@ class ListApp {
 class ListFrame extends JFrame {
     private static final long serialVersionUID = 1L;
 
-    ArrayList<Rect> rs = new ArrayList<Rect>();
     ArrayList<Ellipse> el = new ArrayList<Ellipse>();
     
     Random rand = new Random();
@@ -54,9 +53,9 @@ class ListFrame extends JFrame {
                 }
             }
         );
-        
         this.setTitle("Lista");
         this.setSize(350, 350);
+        
     }
 
     public void paint(Graphics g) {
@@ -67,8 +66,6 @@ class ListFrame extends JFrame {
         }
 
     }   
-}
-
         class Ellipse {
             int x, y;
             int w, h;
@@ -98,3 +95,4 @@ class ListFrame extends JFrame {
                 g2d.fill(new Ellipse2D.Double(this.x, this.y, this.w, this.h));
             }
         }
+}
