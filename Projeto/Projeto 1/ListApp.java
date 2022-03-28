@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import figures.*;
+import handlers.*;
 
 class ListApp {
     public static void main (String[] args) {
@@ -14,10 +15,10 @@ class ListApp {
 }
 
 class ListFrame extends JFrame {
+    private static final long serialVersionUID = 1L;
     ArrayList<Figure> figs = new ArrayList<Figure>();
+    Handlers Handler = new Handlers();
     Random rand = new Random();
-    Point posMouse = null;
-     
 
     ListFrame () {
         this.addWindowListener (
@@ -27,22 +28,23 @@ class ListFrame extends JFrame {
                 }
             }
         );
+        
+        this.addMouseListener (
+            new MouseAdapter() {
+                public void mouseMoved(MouseEvent evt) {
+
+                }
+            }
+
+        );
 
         this.addKeyListener (
             new KeyAdapter() {
-                public void keyPressed (KeyEvent evt) {
-                    int x = posMouse.x;
-                    int y = posMouse.y;
-                    int w = 50;
-                    int h = 50;
+                public void keyPressed(KeyEvent evt) {
+                    Figure fig = Handler.HandleWithKey(evt);
 
-                    if (evt.getKeyChar() == 'r') {
-                        Rect r = new Rect(x,y, w,h);
-                        figs.add(r);
-                    } else if (evt.getKeyChar() == 'e') {
-                        figs.add(new Ellipse(x,y, w,h));
-                    } else if (evt.getKeyChar() == 't'){
-                        figs.add(new Triangle(x,y,w,h));
+                    if (fig != null) {
+                        figs.add(fig);
                     }
                     repaint();
                 }
@@ -50,8 +52,7 @@ class ListFrame extends JFrame {
         );
 
         this.setTitle("Projeto 1/2");
-        this.setSize(700, 700);
-        setLocationRelativeTo(null);
+        this.setSize(500, 500);
     }
 
     public void paint (Graphics g) {
