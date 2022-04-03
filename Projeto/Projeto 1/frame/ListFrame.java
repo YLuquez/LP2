@@ -4,20 +4,25 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.ArrayList;
+import java.awt.Point;
+
 import figures.*;
 import handlers.*; 
 
 public class ListFrame extends JFrame {
     private static final long serialVersionUID = 1L;
 
-    ArrayList<Figure> figs = new ArrayList<Figure>();
+    ArrayList<Figure> figures = new ArrayList<Figure>();
+    Figure selectedFigure = null;
 
-    Handlers Handler = new Handlers();
+    Point mousePointPosition = new Point(0, 0);
 
     public ListFrame() {
+        this.setFocusTraversalKeysEnabled(false);
+
         this.addWindowListener (
             new WindowAdapter() {
-                public void windowClosing(WindowEvent e) {
+                public void windowClosing(WindowEvent windowEvent) {
                     System.exit(0);
                 }
             }
@@ -25,37 +30,56 @@ public class ListFrame extends JFrame {
 
         this.addMouseListener (
             new MouseAdapter() {
-                public void mouseMoved(MouseEvent evt) {
-
+                public void mousePressed(MouseEvent mouseEvent) {
+                    selectedFigure = MouseButtonHandler.SelectFigure(mouseEvent, figures, selectedFigure);
+                    mouseMoved(mouseEvent); 
+                    repaint();
                 }
             }
 
-
         );
 
-        this.addKeyListener (
-            new KeyAdapter() {
-                public void keyPressed(KeyEvent evt) {
-                    Figure fig = Handler.HandleWithKey(evt);
+        this.addMouseMotionListener (
+            new MouseAdapter() {
+                public void mouseMoved(MouseEvent mouseEvent) {
+                    mousePointPosition.x = mouseEvent.getX();
+                    mousePointPosition.y = mouseEvent.getY();
+                }
 
-                    if (fig != null) {
-                        figs.add(fig);
-                    }
-
+                public void mouseDragged(MouseEvent mouseEvent) {
+                    selectedFigure = MouseButtonHandler.SelectAndDragFigure(mouseEvent, figures, selectedFigure, mousePointPosition);
+                    mouseMoved(mouseEvent);
                     repaint();
                 }
             }
         );
 
-        this.setTitle("Lista de Figuras");
-        this.setSize(500, 500);
+        this.addKeyListener (
+            new KeyAdapter() {
+                public void keyPressed(KeyEvent keyEvent){
+                    selectedFigure =  KeyButtonHandler.KeyButtonPressed(keyEvent, figures, selectedFigure, mousePointPosition);
+                    repaint();
+                }
+            }
+        );
+        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        int userWidth = gd.getDisplayMode().getWidth();
+        int userHeight = gd.getDisplayMode().getHeight();
+        
+        this.setTitle("Vectorial Graphic Editor");
+        this.setSize(userWidth, userHeight);
     }
 
     public void paint(Graphics g) {
         super.paint(g);
 
-        for (Figure fig: this.figs) {
-            fig.Paint(g);
+        for (Figure figure: this.figures) {
+            figure.Paint(g);
         }
+
+        if (selectedFigure != null) {
+            selectedFigure.applyRedSelection(g);
+        }
+
     }   
 } 
