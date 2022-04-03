@@ -2,32 +2,73 @@ package figures;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Ellipse2D.Double;
 
 public class Ellipse extends Figure {
-    int x, y;
-    int w, h;
-    //String EcorContorno, EcorFundo;
+    Ellipse2D ellipse;
 
-    public Ellipse (int x, int y, int w, int h) {
-        this.x = x;
-        this.y = y;
-        this.w = w;
-        this.h = h;
-        //this.EcorContorno = EcorContorno;
-        //this.EcorFundo = EcorFundo;
+    public Ellipse(int x, int y, int width, int height, Color borderColor, Color fillColor) {
+        super(x, y, width, height, borderColor, fillColor);
+        
+        this.ellipse = new Ellipse2D.Float(x, y, width, height);
     }
 
-    public void print () {
-        System.out.format("Elipse de tamanho (%d,%d) na posicao (%d,%d).\n",
-            this.w, this.h, this.x, this.y);
+    public Ellipse(int x, int y, int width, int height) {
+        super(x, y, width, height, Color.BLACK, Color.WHITE);
+
+        this.ellipse = new Ellipse2D.Float(x, y, width, height);
     }
 
-    public void paint (Graphics g) {
+    @Override
+
+    public void Paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        //g2d.setColor(Color.decode(this.EcorContorno));
-        g2d.draw(new Ellipse2D.Double(this.x,this.y, this.w,this.h));
-        //g2d.setColor(Color.decode(this.EcorFundo));
-        //g2d.fillOval(this.x, this.y, this.w, this.h);
+
+        this.ellipse = new Ellipse2D.Double(this.x, this.y, this.width, this.height);
+
+        g2d.setStroke(new BasicStroke(defaultThickness*3/2));
+        g2d.setColor(borderColor);
+        g2d.draw(ellipse);
+
+        g2d.setColor(fillColor);
+        g2d.fill(ellipse);
     }
-}
+
+    @Override
+    public boolean IsInsideFigure(Point mousePointPosition) {
+        return this.ellipse.contains(mousePointPosition);
+    }
+
+    @Override
+    public void applyRedSelection(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+
+        g2d.setStroke(new BasicStroke(defaultThickness));
+
+        g2d.setColor(Color.RED);
+        g2d.drawRect(this.x, this.y, this.width, this.height);
+    }
+
+    @Override
+    public void move(int dx, int dy) {
+        super.move(dx, dy);
+    }
+
+    @Override
+    public void dragFigure(Point mousePointPosition, int dx, int dy) {
+        Point pointToResize = new Point(this.x + this.width, this.y + this.height);
+
+        if (pointToResize.distance(mousePointPosition) <= 5) {
+            if (this.width + dx >= 10) {
+                this.width += dx;
+            }
+
+            if (this.height + dy >= 10) {
+                this.height += dy;
+            }
+        } else {
+            move(dx, dy);
+        }
+
+        this.ellipse.setFrame(this.x, this.y, this.width, this.height);
+    }
+} 
