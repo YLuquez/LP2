@@ -33,19 +33,14 @@ public class Ellipse extends Figure {
         g2d.fill(ellipse);
     }
 
-    @Override
+    
     public boolean IsInsideFigure(Point mousePointPosition) {
-        return this.ellipse.contains(mousePointPosition);
+        return super.IsInsideFigure(mousePointPosition);
     }
 
-    @Override
     public void applyRedSelection(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
+        super.applyRedSelection(g);
 
-        g2d.setStroke(new BasicStroke(defaultThickness));
-
-        g2d.setColor(Color.RED);
-        g2d.drawRect(this.x, this.y, this.width, this.height);
     }
 
     @Override
@@ -58,11 +53,11 @@ public class Ellipse extends Figure {
         Point pointToResize = new Point(this.x + this.width, this.y + this.height);
 
         if (pointToResize.distance(mousePointPosition) <= 5) {
-            if (this.width + dx >= 10) {
+            if (this.width + dx >= 5) {
                 this.width += dx;
             }
 
-            if (this.height + dy >= 10) {
+            if (this.height + dy >= 5) {
                 this.height += dy;
             }
         } else {
