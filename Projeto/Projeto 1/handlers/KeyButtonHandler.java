@@ -1,14 +1,13 @@
 package handlers;
 
 import figures.*;
-import java.awt.event.*; 
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.awt.Point;
 
-
 public class KeyButtonHandler {
     private static final int defaultSize = 100;
-    
+
     public class KeyButtons {
         public static final int DEL = 127;
         public static final int TAB = 9;
@@ -23,34 +22,44 @@ public class KeyButtonHandler {
 
     };
 
-    public static Figure KeyButtonPressed(KeyEvent keyEvent, ArrayList<Figure> figures, Figure selectedFigure, Point mousePointPosition)  {
+    public static Figure KeyButtonPressed(KeyEvent keyEvent, ArrayList<Figure> figures, Figure selectedFigure,
+            Point mousePointPosition) {
         if (keyEvent.getKeyChar() == 'r') {
             Rect rectangle = new Rect(mousePointPosition.x, mousePointPosition.y, defaultSize, defaultSize);
             figures.add(rectangle);
-            
+
         } else if (keyEvent.getKeyChar() == 'e') {
             Ellipse ellipse = new Ellipse(mousePointPosition.x, mousePointPosition.y, defaultSize, defaultSize);
             figures.add(ellipse);
-            
+
         } else if (keyEvent.getKeyChar() == 't') {
             Triangle triangle = new Triangle(mousePointPosition.x, mousePointPosition.y, defaultSize, defaultSize);
             figures.add(triangle);
-            
+
         } else if (keyEvent.getKeyChar() == 'l') {
             Line line = new Line(mousePointPosition.x, mousePointPosition.y);
             figures.add(line);
 
         } else if (keyEvent.getKeyCode() == KeyButtons.TAB) {
-            if (selectedFigure == null) {
+            if (selectedFigure != null) {
                 if (figures.size() > 0) {
-                    selectedFigure = figures.get(0);
+                    int index = figures.indexOf(selectedFigure);
+                    if (index != figures.size() - 1) {
+                        selectedFigure = figures.get(index + 1);
+                   
+                    } else {
+                        selectedFigure = figures.get(0);
+                    }
                 }
+
             } else {
-                selectedFigure = figures.get((figures.indexOf(selectedFigure) + 1) % figures.size());
-            
+                selectedFigure = figures.get(0);
             }
-        
-        }else if (selectedFigure != null) {
+            figures.remove(selectedFigure);
+            figures.add(selectedFigure);
+
+
+        } else if (selectedFigure != null) {
             if (keyEvent.getKeyCode() == KeyButtons.UP) {
                 selectedFigure.move(0, -10);
             } else if (keyEvent.getKeyCode() == KeyButtons.DOWN) {
@@ -60,8 +69,8 @@ public class KeyButtonHandler {
             } else if (keyEvent.getKeyCode() == KeyButtons.RIGHT) {
                 selectedFigure.move(10, 0);
             } else if (keyEvent.getKeyCode() == KeyButtons.DEL) {
-                figures.remove(selectedFigure);        
-                selectedFigure = null; 
+                figures.remove(selectedFigure);
+                selectedFigure = null;
             } else if (keyEvent.getKeyCode() == KeyButtons.PAGEUP) {
                 selectedFigure.fillColorIndex++;
 
@@ -96,7 +105,7 @@ public class KeyButtonHandler {
                 selectedFigure.applyBorderColorChange();
             }
         }
-        
+
         return selectedFigure;
     }
 }
