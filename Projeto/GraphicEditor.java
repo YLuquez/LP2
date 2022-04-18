@@ -81,15 +81,12 @@ class ListFrame extends JFrame {
 
     
     public class MouseButton {
-
-        public class MouseButtons {
-            public static int MOUSE1 = 1;
-        }
     
         public static Figure SelectFigure(MouseEvent mouseEvent, ArrayList<Figure> figures, Figure FigureFocus) {
             FigureFocus = null;
-            
-            if (mouseEvent.getButton() == MouseButtons.MOUSE1) {
+            int MOUSE1 = 1;
+
+            if (mouseEvent.getButton() == MOUSE1) {
                 Point mousePosition = new Point(mouseEvent.getX(), mouseEvent.getY());
     
                 for (Figure figure : figures) {
