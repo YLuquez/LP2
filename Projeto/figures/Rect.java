@@ -31,8 +31,8 @@ public class Rect extends Figure {
 
     }
 
-    public boolean IsInsideFigure(Point mousePointPosition) {
-        return super.IsInsideFigure(mousePointPosition);
+    public boolean IsInsideFigure(Point mousePosition) {
+        return super.IsInsideFigure(mousePosition);
     }
 
     public void applyRedSelection(Graphics g) {
@@ -45,10 +45,10 @@ public class Rect extends Figure {
     }
 
     @Override
-    public void dragFigure(Point mousePointPosition, int dx, int dy) {
+    public void dragFigure(Point mousePosition, int dx, int dy) {
         Point pointToResize = new Point(this.x + this.width, this.y + this.height);
 
-        if (pointToResize.distance(mousePointPosition) <= 5) {
+        if (pointToResize.distance(mousePosition) <= 5) {
             if (this.width + dx >= 10) {
                 this.width += dx;
             }
