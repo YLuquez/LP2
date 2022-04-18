@@ -45,8 +45,8 @@ public class Line extends Figure {
     }
 
     @Override
-    public boolean IsInsideFigure(Point mousePointPosition) {
-        return this.lineSegment.ptSegDist(mousePointPosition) <= 5;
+    public boolean IsInsideFigure(Point mousePosition) {
+        return this.lineSegment.ptSegDist(mousePosition) <= 5;
     }
 
     @Override
@@ -72,14 +72,14 @@ public class Line extends Figure {
         this.lineSegment = new Line2D.Float(this.x1, this.y1, this.x2, this.y2);
     }
     @Override
-    public void dragFigure(Point mousePointPosition, int dx, int dy) {
+    public void dragFigure(Point mousePosition, int dx, int dy) {
         Point p1 = new Point(this.x1, this.y1);
         Point p2 = new Point(this.x2, this.y2);
 
-        if (p1.distance(mousePointPosition) <= 5) {
+        if (p1.distance(mousePosition) <= 5) {
             this.x1 += dx;
             this.y1 += dy;
-        } else if (p2.distance(mousePointPosition) <= 5) {
+        } else if (p2.distance(mousePosition) <= 5) {
             this.x2 += dx;
             this.y2 += dy;
         } else {
