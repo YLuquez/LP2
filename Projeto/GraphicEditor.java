@@ -83,7 +83,7 @@ class ListFrame extends JFrame {
     public class MouseButton {
 
         public class MouseButtons {
-            public static final int MOUSE1 = 1;
+            public static int MOUSE1 = 1;
         }
     
         public static Figure SelectFigure(MouseEvent mouseEvent, ArrayList<Figure> figures, Figure FigureFocus) {
