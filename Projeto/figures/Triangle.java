@@ -43,8 +43,8 @@ public class Triangle extends Figure {
     }
 
     @Override
-    public boolean IsInsideFigure(Point mousePointPosition) {
-        return this.triangle.contains(mousePointPosition);
+    public boolean IsInsideFigure(Point mousePosition) {
+        return this.triangle.contains(mousePosition);
     }
 
     @Override
@@ -63,10 +63,10 @@ public class Triangle extends Figure {
     }
 
     @Override
-    public void dragFigure(Point mousePointPosition, int dx, int dy) {
+    public void dragFigure(Point mousePosition, int dx, int dy) {
         Point pointToResize = new Point(this.xArray[2], this.yArray[2]);
 
-        if (pointToResize.distance(mousePointPosition) <= 5) {
+        if (pointToResize.distance(mousePosition) <= 5) {
             if (this.width + dx >= 10) {
                 this.width += dx;
             }
