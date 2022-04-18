@@ -36,7 +36,7 @@ class ListFrame extends JFrame {
         this.addMouseListener (
             new MouseAdapter() {
                 public void mousePressed(MouseEvent mouseEvent) {
-                    FigureFocus = MouseButton.SelectFigure(mouseEvent, figures, FigureFocus);
+                    FigureFocus = MouseButton.FigureFocus(mouseEvent, figures, FigureFocus);
                     mouseMoved(mouseEvent); 
                     repaint();
                 }
