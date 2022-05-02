@@ -4,8 +4,9 @@ import java.awt.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import interfaces.IVisible;
 
-public abstract class Figure {
+public abstract class Figure implements IVisible {
     protected Color borderColor;
     protected Color fillColor;
     protected int x, y;
